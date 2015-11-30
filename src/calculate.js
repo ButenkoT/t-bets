@@ -1,8 +1,8 @@
-function normalizeNumber(num){
+function normalizeNumber(num) {
   return parseFloat((num).toFixed(2));
 }
 
-function companyPercentageSum(sum, percent){
+function companyPercentageSum(sum, percent) {
   return normalizeNumber((percent / 100) * sum);
 }
 
@@ -11,7 +11,7 @@ function moneyInPool(sum, percent) {
 }
 
 function stakeProportion(sum, percent, winnerSteak) {
-  return normalizeNumber(moneyInPool(sum, percent)/winnerSteak );
+  return normalizeNumber(moneyInPool(sum, percent) / winnerSteak);
 }
 
 function sumForPlace(sum) {

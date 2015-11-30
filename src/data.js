@@ -3,7 +3,7 @@ function betFromLine(line) {
   return {
     product: arrayLine[1],
     horse: arrayLine[2],
-    bet: parseInt(arrayLine[3])
+    bet: parseInt(arrayLine[3], 10)
   }
 }
 
@@ -29,6 +29,8 @@ function readResult(line) {
   }
   return false;
 }
+
+//TODO: processInput, process all input
 
 exports.betFromLine = betFromLine;
 exports.readBets = readBets;
