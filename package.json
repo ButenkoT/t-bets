@@ -1,14 +1,14 @@
 {
   "name": "tab_bets",
   "version": "1.0.0",
-  "description": "\"Betting host\"",
+  "description": "Betting host",
   "main": "index.js",
   "scripts": {
-    "test": "node tests/*.js"
+    "test": "tape tests/*.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ButenkoT/t-bets.git"
+    "url": "https://github.com/ButenkoT/t-bets.git"
   },
   "keywords": [
     "tape",
