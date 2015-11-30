@@ -1,0 +1,27 @@
+{
+  "name": "tab_bets",
+  "version": "1.0.0",
+  "description": "\"Betting host\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "node tests/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ButenkoT/t-bets.git"
+  },
+  "keywords": [
+    "tape",
+    "bets",
+    "vanila js"
+  ],
+  "author": "Tanya Butenko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ButenkoT/t-bets/issues"
+  },
+  "homepage": "https://github.com/ButenkoT/t-bets#readme",
+  "devDependencies": {
+    "tape": "^4.2.2"
+  }
+}
