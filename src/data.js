@@ -7,11 +7,15 @@ function betFromLine(line) {
   }
 }
 
-function readBets(line){
+function readBets(line) {
   if (RegExp(/^(Bet)/).test(line)) {
     return betFromLine(line);
   }
   return false;
+}
+
+function getBets(input) {
+  return input.slice(0, input.length - 1).map(readBets);
 }
 
 function resultFromLine(line) {
@@ -30,9 +34,15 @@ function readResult(line) {
   return false;
 }
 
+function getResult(input) {
+  return input.slice(-1).map(readResult)[0];
+}
+
 //TODO: processInput, process all input
 
 exports.betFromLine = betFromLine;
 exports.readBets = readBets;
+exports.getBets = getBets;
 exports.resultFromLine = resultFromLine;
 exports.readResult = readResult;
+exports.getResult = getResult;

@@ -4,16 +4,14 @@ var config = require('../config.json');
 
 function processInput(inputData) {
 
-  var bets = inputData.slice(0, inputData.length - 1).map(data.readBets);
-  var result = inputData.slice(-1).map(data.readResult)[0];
+  var bets = data.getBets(inputData);
+  var result = data.getResult(inputData);
 
   var poolWin = 0;
   var poolPlace = 0;
   var poolExacta = 0;
 
   return bets.reduce(function (out, bet) {
-    //console.log("Out: ", out);
-    //console.log("Bet: ", bet);
 
     if (bet.product === 'W') {
       poolWin = poolWin + bet.bet;
