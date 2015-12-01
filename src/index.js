@@ -13,7 +13,7 @@ function processInput(inputData) {
 
   return bets.reduce(function (out, bet) {
 
-    if (bet.product === 'W') {
+    if (bet.product === config.win) {
       poolWin = poolWin + bet.bet;
       out.win.sum = poolWin;
 
@@ -24,7 +24,7 @@ function processInput(inputData) {
       return out;
     }
 
-    if (bet.product === 'P') {
+    if (bet.product === config.place) {
       poolPlace = poolPlace + bet.bet;
       out.place.sum = poolPlace;
 
@@ -35,7 +35,7 @@ function processInput(inputData) {
       return out;
     }
 
-    if (bet.product === 'E') {
+    if (bet.product === config.exacta) {
       poolExacta = poolExacta + bet.bet;
       out.exacta.sum = poolExacta;
 
@@ -52,7 +52,7 @@ function processInput(inputData) {
   });
 }
 
-var out = processInput([
+var dataInput = [
   'Bet:W:1:3',
   'Bet:W:2:4',
   'Bet:W:3:5',
@@ -90,17 +90,30 @@ var out = processInput([
   'Bet:E:1,3:93',
   'Bet:E:3,2:51',
   'Result:2:3:1'
-]);
+];
 
-console.log(out);
-
-var winSumSteak = calculate.winnersTotalMoneyInput(out.win.winners);
-console.log("win players stake: ", winSumSteak);
-
-var win = calculate.stakeProportion(out.win.sum, config.winPercent, winSumSteak);
-
-function printWin(winNum) {
-  console.log('Win:$' + winNum);
+function printWin(winNum, result) {
+  return console.log('Win:' + result.firstPlace + ':$' + winNum);
 }
 
-printWin(win);
+function printExacta(exactaNum, result){
+  return console.log('Exacta:' + result.firstPlace + ',' + result.secondPlace + ':$' + exactaNum);
+}
+
+function bettingHost(myInput){
+  var out = processInput(myInput);
+  console.log(out);
+  var result = data.getResult(myInput);
+
+  var winSumSteak = calculate.winnersTotalMoneyInput(out.win.winners);
+  var exactaSumSteak = calculate.winnersTotalMoneyInput(out.exacta.winners);
+
+  var win = calculate.stakeProportion(out.win.sum, config.winPercent, winSumSteak);
+  var exacta = calculate.stakeProportion(out.exacta.sum, config.exactaPercent, exactaSumSteak)
+
+  printWin(win, result);
+  printExacta(exacta,result);
+
+}
+
+bettingHost(dataInput);

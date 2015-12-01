@@ -1,5 +1,8 @@
 {
   "winPercent": 15,
   "placePercent": 12,
-  "exactaPercent": 18
+  "exactaPercent": 18,
+  "win": "W",
+  "place": "P",
+  "exacta": "E"
 }
