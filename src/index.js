@@ -1,4 +1,108 @@
-//TODO: combine output with calculation
-//TODO: calculations and output for Win
-//TODO: calculation and output for Place
-//TODO: calculation and output for Exacta
+var data = require('./data');
+var calculate = require('./calculate');
+var config = require('../config.json');
+
+function processInput(inputData) {
+
+  var bets = inputData.slice(0, inputData.length - 1).map(data.readBets);
+  var result = inputData.slice(-1).map(data.readResult)[0];
+
+  var poolWin = 0;
+  var poolPlace = 0;
+  var poolExacta = 0;
+
+  return bets.reduce(function (out, bet) {
+    //console.log("Out: ", out);
+    //console.log("Bet: ", bet);
+
+    if (bet.product === 'W') {
+      poolWin = poolWin + bet.bet;
+      out.win.sum = poolWin;
+
+      if (bet.horse === result.firstPlace) {
+        out.win.winners.push(bet.bet)
+      }
+
+      return out;
+    }
+
+    if (bet.product === 'P') {
+      poolPlace = poolPlace + bet.bet;
+      out.place.sum = poolPlace;
+
+      if (bet.horse === result.firstPlace || bet.horse === result.secondPlace || bet.horse === result.thirdPlace) {
+        out.place.winners.push(bet.bet)
+      }
+
+      return out;
+    }
+
+    if (bet.product === 'E') {
+      poolExacta = poolExacta + bet.bet;
+      out.exacta.sum = poolExacta;
+
+      if (bet.horse[0] === result.firstPlace || bet.horse[1] === result.secondPlace) {
+        out.exacta.winners.push(bet.bet)
+      }
+
+      return out;
+    }
+  }, {
+    win: {sum: 0, winners: []},
+    place: {sum: 0, winners: []},
+    exacta: {sum: 0, winners: []}
+  });
+}
+
+var out = processInput([
+  'Bet:W:1:3',
+  'Bet:W:2:4',
+  'Bet:W:3:5',
+  'Bet:W:4:5',
+  'Bet:W:1:16',
+  'Bet:W:2:8',
+  'Bet:W:3:22',
+  'Bet:W:4:57',
+  'Bet:W:1:42',
+  'Bet:W:2:98',
+  'Bet:W:3:63',
+  'Bet:W:4:15',
+  'Bet:P:1:31',
+  'Bet:P:2:89',
+  'Bet:P:3:28',
+  'Bet:P:4:72',
+  'Bet:P:1:40',
+  'Bet:P:2:16',
+  'Bet:P:3:82',
+  'Bet:P:4:52',
+  'Bet:P:1:18',
+  'Bet:P:2:74',
+  'Bet:P:3:39',
+  'Bet:P:4:105',
+  'Bet:E:1,2:13',
+  'Bet:E:2,3:98',
+  'Bet:E:1,3:82',
+  'Bet:E:3,2:27',
+  'Bet:E:1,2:5',
+  'Bet:E:2,3:61',
+  'Bet:E:1,3:28',
+  'Bet:E:3,2:25',
+  'Bet:E:1,2:81',
+  'Bet:E:2,3:47',
+  'Bet:E:1,3:93',
+  'Bet:E:3,2:51',
+  'Result:2:3:1'
+]);
+
+console.log(out);
+
+var winSumSteak = calculate.winnersTotalMoneyInput(out.win.winners);
+console.log("win players stake: ", winSumSteak);
+
+var win = calculate.stakeProportion(out.win.sum, config.winPercent, winSumSteak);
+
+function printWin(winNum) {
+  console.log('Win:$' + winNum);
+}
+
+printWin(win);
