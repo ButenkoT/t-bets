@@ -19,6 +19,11 @@ test('Calculate amount of money in the pool', function (t) {
   t.end();
 });
 
+test('Calculate total sum of winners money in the pool for product', function (t) {
+  t.equal(calculate.winnersTotalMoneyInput([1,2,3,4]), 10);
+  t.end();
+});
+
 test('Calculate steak proportion for winners', function (t) {
   t.equal(calculate.stakeProportion(100, 15, 60), 1.42);
   t.equal(calculate.stakeProportion(86, 15, 60), 1.22);
