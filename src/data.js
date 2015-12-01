@@ -38,7 +38,6 @@ function getResult(input) {
   return input.slice(-1).map(readResult)[0];
 }
 
-//TODO: processInput, process all input
 
 exports.betFromLine = betFromLine;
 exports.readBets = readBets;
