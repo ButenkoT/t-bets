@@ -28,8 +28,14 @@ function processInput(inputData) {
       poolPlace = poolPlace + bet.bet;
       out.place.sum = poolPlace;
 
-      if (bet.horse === result.firstPlace || bet.horse === result.secondPlace || bet.horse === result.thirdPlace) {
-        out.place.winners.push(bet.bet)
+      if (bet.horse === result.firstPlace) {
+        out.place.firstWinners.push(bet.bet)
+      }
+      if (bet.horse === result.secondPlace) {
+        out.place.secondWinners.push(bet.bet)
+      }
+      if (bet.horse === result.thirdPlace) {
+        out.place.thirdWinners.push(bet.bet)
       }
 
       return out;
@@ -47,7 +53,7 @@ function processInput(inputData) {
     }
   }, {
     win: {sum: 0, winners: []},
-    place: {sum: 0, winners: []},
+    place: {sum: 0, firstWinners: [], secondWinners: [], thirdWinners: []},
     exacta: {sum: 0, winners: []}
   });
 }
@@ -96,23 +102,36 @@ function printWin(winNum, result) {
   return console.log('Win:' + result.firstPlace + ':$' + winNum);
 }
 
-function printExacta(exactaNum, result){
+function printPlace(placeNum, result){
+  return console.log('Place:' + result + ':$' + placeNum);
+}
+
+function printExacta(exactaNum, result) {
   return console.log('Exacta:' + result.firstPlace + ',' + result.secondPlace + ':$' + exactaNum);
 }
 
-function bettingHost(myInput){
+function bettingHost(myInput) {
   var out = processInput(myInput);
   console.log(out);
   var result = data.getResult(myInput);
 
   var winSumSteak = calculate.winnersTotalMoneyInput(out.win.winners);
   var exactaSumSteak = calculate.winnersTotalMoneyInput(out.exacta.winners);
+  var place1SumSteak = calculate.winnersTotalMoneyInput(out.place.firstWinners);
+  var place2SumSteak = calculate.winnersTotalMoneyInput(out.place.secondWinners);
+  var place3SumSteak = calculate.winnersTotalMoneyInput(out.place.thirdWinners);
 
   var win = calculate.stakeProportion(out.win.sum, config.winPercent, winSumSteak);
-  var exacta = calculate.stakeProportion(out.exacta.sum, config.exactaPercent, exactaSumSteak)
+  var exacta = calculate.stakeProportion(out.exacta.sum, config.exactaPercent, exactaSumSteak);
+  var place1 = calculate.stakeProportion(calculate.sumForPlace(out.place.sum), config.placePercent, place1SumSteak);
+  var place2 = calculate.stakeProportion(calculate.sumForPlace(out.place.sum), config.placePercent, place2SumSteak);
+  var place3 = calculate.stakeProportion(calculate.sumForPlace(out.place.sum), config.placePercent, place3SumSteak);
 
   printWin(win, result);
-  printExacta(exacta,result);
+  printPlace(place1, result.firstPlace);
+  printPlace(place2, result.secondPlace);
+  printPlace(place3, result.thirdPlace);
+  printExacta(exacta, result);
 
 }
 
