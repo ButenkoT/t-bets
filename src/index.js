@@ -13,7 +13,7 @@ stdin.on('data', function (chunk) {
 });
 
 stdin.on('end', function () {
-  var inputData = inputChunks.join('').split('\n');
+  var inputData = inputChunks.join('').trim().split('\n');
   var myOutput = data.bettingHost(inputData);
   stdout.write(myOutput.win);
   stdout.write('\n');
