@@ -3,11 +3,11 @@ var data = require('./data');
 var calculate = require('./calculate');
 var config = require('../config.json');
 
-var myData = fs.readFileSync('./betsInput.txt', 'utf-8').split('\n');
+var myData = fs.readFileSync(process.argv[2] || './betsInput.txt', 'utf-8').split('\n');
 
 
 function processInput(bets, result) {
-  console.log(bets);
+
   return bets.reduce(function (out, bet) {
 
     if (bet.product === config.win) {
