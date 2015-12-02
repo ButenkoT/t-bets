@@ -147,3 +147,28 @@ test('Should return right product win sums and winners', function (t) {
   t.end();
 });
 
+test('Should return right dividents output for all types of bets and winners', function (t) {
+  t.deepEqual(data.bettingHost([
+      'Bet:W:1:3',
+      'Bet:W:2:4',
+      'Bet:W:3:5',
+      'Bet:W:4:5',
+      'Bet:P:1:3',
+      'Bet:P:2:8',
+      'Bet:P:3:2',
+      'Bet:P:4:2',
+      'Bet:P:1:4',
+      'Bet:E:1,2:1',
+      'Bet:E:2,3:9',
+      'Bet:E:1,3:8',
+      'Result:2:3:1'
+    ]), {
+      win: 'Win:2:$3.61',
+      place1: 'Place:2:$0.7',
+      place2: 'Place:3:$2.79',
+      place3: 'Place:1:$0.8',
+      exacta: 'Exacta:2,3:$1.64'
+    }
+  );
+  t.end();
+});
