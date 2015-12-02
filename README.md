@@ -7,18 +7,14 @@ Command line tool to calculate the stake of winners in 3 different types of bets
 
     npm install
 
-####Run:
+#### Run:
 
-    npm start 
+    cat betsInput.txt | npm start 
 
-or
+To work with new data - put text file with data and run:
 
-    npm start betsInput.txt
+    cat <fileName> | npm start
 
-To work with new data - put text file with data in the root folder and run:
-
-    npm start <fileName>
-
-####Run tests:
+#### Run tests:
 
     npm test

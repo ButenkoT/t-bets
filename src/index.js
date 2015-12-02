@@ -1,19 +1,28 @@
-var fs = require('fs');
 var data = require('./data');
 
 
-var myData = fs.readFileSync(process.argv[2] || './betsInput.txt', 'utf-8').split('\n');
+var stdin = process.stdin;
+var stdout = process.stdout;
+var inputChunks = [];
 
-//process.stdin.setEncoding("utf8"); // convert bytes to utf8 characters
-//
-//process.stdin
-//  .on('data', bettingHost)
-//  .pipe(process.stdout);
+stdin.resume();
+stdin.setEncoding('utf8');
 
-var output = data.bettingHost(myData);
+stdin.on('data', function (chunk) {
+  inputChunks.push(chunk);
+});
 
-console.log(output.win);
-console.log(output.place1);
-console.log(output.place2);
-console.log(output.place3);
-console.log(output.exacta);
+stdin.on('end', function () {
+  var inputData = inputChunks.join('').split('\n');
+  var myOutput = data.bettingHost(inputData);
+  stdout.write(myOutput.win);
+  stdout.write('\n');
+  stdout.write(myOutput.place1);
+  stdout.write('\n');
+  stdout.write(myOutput.place2);
+  stdout.write('\n');
+  stdout.write(myOutput.place3);
+  stdout.write('\n');
+  stdout.write(myOutput.exacta);
+  stdout.write('\n');
+});
