@@ -6,13 +6,10 @@ var config = require('../config.json');
 var myData = fs.readFileSync('./betsInput.txt', 'utf-8').split('\n');
 
 
-function processInput(inputData) {
-
-  var bets = data.getBets(inputData);
-  var result = data.getResult(inputData);
-
+function processInput(bets, result) {
+  console.log(bets);
   return bets.reduce(function (out, bet) {
-    console.log(bet);
+
     if (bet.product === config.win) {
       out.win = win(bet, out.win.sum, out.win.winners, result);
       return out;
@@ -63,22 +60,23 @@ function win(bet, sum, winners, result) {
   };
 }
 
-function formatWin(winNum, result) {
-  return 'Win:' + result.firstPlace + ':$' + winNum;
+function formatWin(winStake, result) {
+  return 'Win:' + result.firstPlace + ':$' + winStake;
 }
 
-function formatPlace(placeNum, result) {
-  return 'Place:' + result + ':$' + placeNum;
+function formatPlace(placeStake, result) {
+  return 'Place:' + result + ':$' + placeStake;
 }
 
-function formatExacta(exactaNum, result) {
-  return 'Exacta:' + result.firstPlace + ',' + result.secondPlace + ':$' + exactaNum;
+function formatExacta(exactaStake, result) {
+  return 'Exacta:' + result.firstPlace + ',' + result.secondPlace + ':$' + exactaStake;
 }
 
 function bettingHost(myInput) {
-  var out = processInput(myInput);
-  console.log(out);
+  var bets = data.getBets(myInput);
   var result = data.getResult(myInput);
+  var out = processInput(bets, result);
+  //console.log(out);
 
   var winSumSteak = calculate.winnersTotalMoneyInput(out.win.winners);
   var exactaSumSteak = calculate.winnersTotalMoneyInput(out.exacta.winners);
@@ -105,3 +103,4 @@ bettingHost(myData);
 exports.win = win;
 exports.place = place;
 exports.exacta = exacta;
+exports.processInput = processInput;

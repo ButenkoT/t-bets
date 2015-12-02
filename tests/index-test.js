@@ -62,3 +62,35 @@ test('Should return exacta object for an exacta input', function (t) {
   }), {sum: 5, winners: []}, 'exacta: case loose');
   t.end();
 });
+
+test('Should return right product win sums and winners', function (t) {
+  t.deepEqual(index.processInput(([
+      {product: 'W', horse: '1', bet: 3},
+      {product: 'W', horse: '2', bet: 4},
+      {product: 'W', horse: '2', bet: 5},
+      {product: 'W', horse: '4', bet: 5},
+      {product: 'P', horse: '1', bet: 2},
+      {product: 'P', horse: '2', bet: 3},
+      {product: 'P', horse: '3', bet: 4},
+      {product: 'P', horse: '4', bet: 5},
+      {product: 'E', horse: '1,2', bet: 5},
+      {product: 'E', horse: '2,3', bet: 5}
+    ]), {
+      firstPlace: '2',
+      secondPlace: '1',
+      thirdPlace: '3'
+    }), {
+      win: {sum: 17, winners: [4, 5]},
+      place: {
+        sum: 14,
+        firstWinners: [3],
+        secondWinners: [2],
+        thirdWinners: [4]
+      },
+      exacta: {
+        sum: 10, winners: []
+      }
+    }
+  );
+  t.end();
+});
