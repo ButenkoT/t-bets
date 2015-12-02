@@ -4,6 +4,7 @@
   "description": "Betting host",
   "main": "index.js",
   "scripts": {
+    "start": "node src/index.js",
     "test": "tape tests/*.js"
   },
   "repository": {

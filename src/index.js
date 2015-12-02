@@ -12,7 +12,7 @@ function processInput(inputData) {
   var result = data.getResult(inputData);
 
   return bets.reduce(function (out, bet) {
-
+    console.log(bet);
     if (bet.product === config.win) {
       out.win = win(bet, out.win.sum, out.win.winners, result);
       return out;
@@ -20,18 +20,7 @@ function processInput(inputData) {
 
     if (bet.product === config.place) {
 
-      out.place.sum = out.place.sum + bet.bet;
-
-      if (bet.horse === result.firstPlace) {
-        out.place.firstWinners.push(bet.bet)
-      }
-      if (bet.horse === result.secondPlace) {
-        out.place.secondWinners.push(bet.bet)
-      }
-      if (bet.horse === result.thirdPlace) {
-        out.place.thirdWinners.push(bet.bet)
-      }
-
+      out.place = place(bet, out.place.sum, out.place.firstWinners, out.place.secondWinners, out.place.thirdWinners, result);
       return out;
     }
 
@@ -47,11 +36,22 @@ function processInput(inputData) {
 }
 
 function exacta(bet, sum, winners, result) {
+  var horse = bet.horse.split(",");
 
   return {
     sum: sum + bet.bet,
-    winners: (bet.horse[0] === result.firstPlace || bet.horse[1] === result.secondPlace)
+    winners: (horse[0] === result.firstPlace && horse[1] === result.secondPlace)
       ? winners.concat([bet.bet]) : winners
+  };
+}
+
+function place(bet, sum, fWinners, sWinners, tWinners, result) {
+
+  return {
+    sum: sum + bet.bet,
+    firstWinners: (bet.horse === result.firstPlace) ? fWinners.concat([bet.bet]) : fWinners,
+    secondWinners: (bet.horse === result.secondPlace) ? sWinners.concat([bet.bet]) : sWinners,
+    thirdWinners: (bet.horse === result.thirdPlace) ? tWinners.concat([bet.bet]) : tWinners
   };
 }
 
@@ -101,3 +101,7 @@ function bettingHost(myInput) {
 }
 
 bettingHost(myData);
+
+exports.win = win;
+exports.place = place;
+exports.exacta = exacta;
